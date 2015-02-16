@@ -1497,7 +1497,7 @@ static inline u64 steal_ticks(u64 steal)
 
 static inline void inc_nr_running(struct rq *rq)
 {
-	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
+	sched_update_nr_prod(cpu_of(rq), 1, true);
 	rq->nr_running++;
 
 #ifdef CONFIG_NO_HZ_FULL
@@ -1513,7 +1513,7 @@ static inline void inc_nr_running(struct rq *rq)
 
 static inline void dec_nr_running(struct rq *rq)
 {
-	sched_update_nr_prod(cpu_of(rq), rq->nr_running, false);
+	sched_update_nr_prod(cpu_of(rq), 1, false);
 	rq->nr_running--;
 }
 
