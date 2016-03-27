@@ -20,6 +20,7 @@
 #define CSI_DECODE_DPCM_10_8_10 5
 #define MAX_CID                 16
 #define I2C_SEQ_REG_DATA_MAX    256
+#define I2C_REG_DATA_MAX       (8*1024)
 #define MSM_V4L2_PIX_FMT_META v4l2_fourcc('M', 'E', 'T', 'A') /* META */
 
 #define MAX_ACTUATOR_REG_TBL_SIZE 8
@@ -28,7 +29,7 @@
 #define MAX_ACTUATOR_SCENARIO     8
 #define MAX_ACT_MOD_NAME_SIZE     32
 #define MAX_ACT_NAME_SIZE         32
-#define MAX_ACTUATOR_INIT_SET     12
+#define MAX_ACTUATOR_INIT_SET     32
 #define MAX_I2C_REG_SET           12
 
 #define MAX_NAME_SIZE             32
@@ -152,6 +153,7 @@ enum msm_actuator_addr_type {
 enum msm_actuator_write_type {
 	MSM_ACTUATOR_WRITE_HW_DAMP,
 	MSM_ACTUATOR_WRITE_DAC,
+	MSM_ACTUATOR_WRITE_DAC_DW9718S,
 };
 
 enum msm_actuator_i2c_operation {
@@ -210,10 +212,6 @@ struct msm_sensor_init_params {
 	enum camb_position_t position;
 	/* sensor mount angle */
 	uint32_t            sensor_mount_angle;
-/* Don't ifdef this. It's also used by userspace, which doesn't have the MACH variables */
-//#ifdef CONFIG_MACH_YULONG
-	uint32_t module_id;
-//#endif
 };
 
 struct msm_sensor_id_info_t {
