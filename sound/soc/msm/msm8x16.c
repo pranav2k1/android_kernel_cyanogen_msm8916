@@ -104,10 +104,7 @@ static int msm8x16_enable_extcodec_ext_clk(struct snd_soc_codec *codec,
 
 static int conf_int_codec_mux(struct msm8916_asoc_mach_data *pdata);
 
-#ifdef CONFIG_SND_SOC_WCD9335
 static void *def_tasha_mbhc_cal(void);
-#endif
-
 /*
  * Android L spec
  * Need to report LINEIN
@@ -131,7 +128,6 @@ static struct wcd_mbhc_config mbhc_cfg = {
 	.linein_th = 5000,
 };
 
-#ifdef CONFIG_SND_SOC_WCD9335
 static struct wcd_mbhc_config wcd_mbhc_cfg = {
 	.read_fw_bin = false,
 	.calibration = NULL,
@@ -176,7 +172,6 @@ static void *def_tasha_mbhc_cal(void)
 
 	return tasha_wcd_cal;
 }
-#endif
 
 void *def_tapan_mbhc_cal(void)
 {
@@ -1077,9 +1072,7 @@ static int msm8x16_enable_extcodec_ext_clk(struct snd_soc_codec *codec,
 					AFE_PORT_ID_QUATERNARY_MI2S_RX,
 					&pdata->digital_cdc_clk);
 			mutex_unlock(&pdata->cdc_mclk_mutex);
-#ifdef CONFIG_SND_SOC_WCD9335
 			tasha_cdc_mclk_enable(codec, 1, dapm);
-#endif
 		}
 	} else {
 		if (atomic_dec_return(&pdata->mclk_rsc_ref) == 0) {
@@ -1093,9 +1086,7 @@ static int msm8x16_enable_extcodec_ext_clk(struct snd_soc_codec *codec,
 					AFE_PORT_ID_QUATERNARY_MI2S_RX,
 					&pdata->digital_cdc_clk);
 			mutex_unlock(&pdata->cdc_mclk_mutex);
-#ifdef CONFIG_SND_SOC_WCD9335
 			tasha_cdc_mclk_enable(codec, 0, dapm);
-#endif
 		}
 	}
 	return ret;
@@ -1831,14 +1822,12 @@ static int msm_audrx_init_wcd(struct snd_soc_pcm_runtime *rtd)
 	snd_soc_dapm_ignore_suspend(dapm, "SPK2 OUT");
 	snd_soc_dapm_sync(dapm);
 
-#ifdef CONFIG_SND_SOC_WCD9335
 	/* start mbhc */
 	wcd_mbhc_cfg.calibration = def_tasha_mbhc_cal();
 	if (wcd_mbhc_cfg.calibration)
 		ret = tasha_mbhc_hs_detect(codec, &wcd_mbhc_cfg);
 	else
 		ret = -ENOMEM;
-#endif
 	return ret;
 }
 
